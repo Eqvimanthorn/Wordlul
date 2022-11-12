@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HiddenWordGame"
+             xmlns:local="clr-namespace:HiddenWordGame" d:DataContext="{d:DesignInstance Type=local:GetHiddenWordViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1000">
   
@@ -36,7 +36,7 @@
                Foreground="Black"
                FontSize="40"
                HorizontalAlignment="Center"/>
-            <Label Content="Hidden Word"
+            <Label Content="{Binding Path=HiddenWord, UpdateSourceTrigger=PropertyChanged}"
                Grid.ColumnSpan="12"
                x:Name="hiddenWordLabel"
                Grid.Row="1"
