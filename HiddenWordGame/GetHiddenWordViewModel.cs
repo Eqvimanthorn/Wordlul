@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace HiddenWordGame
@@ -16,15 +18,14 @@ namespace HiddenWordGame
         private GameStatsViewModel _gameStatsViewModel;
         private string _selectedWord;
         private string _hiddenWord;
+        private string _advice;
         private int _guessCount;
 
         public GetHiddenWordViewModel()
         {
             HideWord();
             GameStatsViewModel = new GameStatsViewModel();
-            //hiddenWordLabel.Content = _hiddenWord;
             GuessCount = _selectedWord.Length;
-            //guessCountLabel.Content = $"Guesses remaining: {_guessCount}";
         }
 
         public string HiddenWord 
@@ -81,7 +82,20 @@ namespace HiddenWordGame
             }
         }
 
-        public void GameLogic(char selectedLetter)
+        public string Advice
+        {
+            get
+            {
+                return _advice;
+            }
+            set
+            {
+                _advice = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool GameLogic(char selectedLetter)
         {
             for (int i = 0; i < SelectedWord.Length; i++)
             {
@@ -89,32 +103,33 @@ namespace HiddenWordGame
                 {
                     HiddenWord = HiddenWord.Remove(i, 1);
                     HiddenWord = HiddenWord.Insert(i, selectedLetter.ToString());
-                    //hiddenWordLabel.Content = _hiddenWord;
-                    //_saveButton.Background = new LinearGradientBrush(Colors.Green, Colors.Green, 90);
                     GameStatsViewModel.GoodGuesses++;
-                    //adviceLabel.Content = $"{selectedLetter} is in the word!";
-                    //if (_hiddenWord.Contains('*') == false)
-                    //{
-                    //    adviceLabel.Content = $"The hidden word was {_selectedWord}!  Click restart to play again!";
-                    //}
                 }
-                //else if (_selectedWord.Contains(selectedLetter) == false)
-                //{
-                //    _saveButton.Background = new LinearGradientBrush(Colors.DarkGray, Colors.DarkGray, 90);
-                GameStatsViewModel.WrongGuesses++;
-                //    adviceLabel.Content = $"{selectedLetter} is NOT in the word!";
-                //}
+                else if (_selectedWord.Contains(selectedLetter) == false)
+                {
+                    GameStatsViewModel.WrongGuesses++;
+                }
             }
-            if (_selectedWord.Contains(selectedLetter) == false)
+            if (SelectedWord.Contains(selectedLetter))
             {
-                GuessCount--;
+                Advice = $"{selectedLetter} is in the word!";
+                if (HiddenWord == SelectedWord)
+                {
+                    Advice = $"{SelectedWord} was the hidden word!";
+                }
+                return true;
             }
-            //guessCountLabel.Content = $"Guesses remaining: {_guessCount}";
-            //if (_guessCount == 0)
-            //{
-            //    hiddenWordLabel.Content = _selectedWord;
-            //    adviceLabel.Content = $"You ran out of guesses... the word was {_selectedWord}!";
-            //}
+            else
+            {
+                Advice = $"{selectedLetter} is NOT in the word!";
+                GuessCount--;
+                if (GuessCount == 0)
+                {
+                    HiddenWord = SelectedWord;
+                    Advice = $"You ran out of guesses... the hidden word was {SelectedWord}!";
+                }
+                return false;
+            }
         }
 
         public void HideWord()
@@ -132,5 +147,6 @@ namespace HiddenWordGame
             }
             HiddenWord = hiddenWord;
         }
+
     }
 }

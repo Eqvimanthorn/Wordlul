@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HiddenWordGame" d:DataContext="{d:DesignInstance Type=local:GetHiddenWordViewModel}"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=GetHiddenWord}"
              d:DesignHeight="800" d:DesignWidth="1000">
   
         <Grid Background="#FF9D9DB6">
@@ -42,7 +42,7 @@
                Grid.Row="1"
                FontSize="35"
                HorizontalAlignment="Center"/>
-            <Label Content=""
+            <Label Content="{Binding Path=Advice, UpdateSourceTrigger=PropertyChanged}"
                x:Name="adviceLabel"
                Grid.ColumnSpan="12"
                Grid.Row="2"
@@ -248,7 +248,7 @@
             Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            Content="You have 10 more guesses"
+            Content="{Binding GuessCount, Converter={StaticResource LabelConverter}}"
             FontSize="20"
             x:Name="guessCountLabel"/>
     </Grid>
