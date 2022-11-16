@@ -148,5 +148,15 @@ namespace HiddenWordGame
             HiddenWord = hiddenWord;
         }
 
+       public GetHiddenWordViewModel ResetModel()
+        {
+            return new GetHiddenWordViewModel();
+        }
     }
+    //public class GetHiddenWordScreenViewModel
+    //{
+    //    private GetHiddenWordViewModel _getHiddenWordViewModel;
+
+    //    public GetHiddenWordViewModel CurrentGetHiddenWord { get; set; }
+    //}
 }

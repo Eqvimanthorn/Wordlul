@@ -6,6 +6,5 @@
     <Application.Resources>
         <local:ViewModelLocator x:Key="Locator"/>
         <local:GuessCountLabelConverter x:Key="LabelConverter"/>
-
     </Application.Resources>
 </Application>

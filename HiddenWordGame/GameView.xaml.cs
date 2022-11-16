@@ -23,7 +23,8 @@ namespace HiddenWordGame
     /// </summary>
     public partial class GameView : UserControl
     {
-        private GetHiddenWordViewModel _hiddenWordGet = new GetHiddenWordViewModel();
+        private readonly GetHiddenWordViewModel _getHiddenWordViewModel = new GetHiddenWordViewModel();
+        private readonly List<Button> _buttons = new List<Button>();
 
         public GameView()
         {
@@ -35,20 +36,25 @@ namespace HiddenWordGame
             string selectedLetterButton = (sender as Button).Content.ToString();
             char selectedLetter = Char.ToLower(selectedLetterButton[0]);
 
-            if (((GetHiddenWordViewModel)DataContext).GameLogic(selectedLetter) == true)
+            Button button = (sender as Button);
+            if (((_getHiddenWordViewModel)DataContext).GameLogic(selectedLetter) == true)
             {
-                (sender as Button).Background = new LinearGradientBrush(Colors.Green, Colors.Green, 90);
+                button.Background = new LinearGradientBrush(Colors.Green, Colors.Green, 90);
             }
             else
             {
-                (sender as Button).Background = new LinearGradientBrush(Colors.DarkGray, Colors.DarkGray, 90);
+                button.Background = new LinearGradientBrush(Colors.DarkGray, Colors.DarkGray, 90);
             }
+            _buttons.Add(button);
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
-            _hiddenWordGet = new GetHiddenWordViewModel();
-
+            _getHiddenWordViewModel.ResetModel();
+            foreach(var button in _buttons)
+            {
+                button.ClearValue(Button.BackgroundProperty);
+            }
         }
 
     }
